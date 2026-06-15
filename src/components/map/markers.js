@@ -20,17 +20,18 @@ function pin(color, glyph) {
   });
 }
 
-export const pickupIcon = pin("#16a34a", "P");
-export const dropoffIcon = pin("#dc2626", "D");
+export const pickupIcon = pin("#15803d", "P");
+export const dropoffIcon = pin("#b91c1c", "D");
 
+// Gold dot so the live vehicle stands out against the wine-red route lines.
 export const driverIcon = L.divIcon({
   className: "",
   html: `<div style="
-    background:#2563eb;
+    background:#c79a2e;
     width:22px;height:22px;
     border-radius:50%;
     border:3px solid #fff;
-    box-shadow:0 0 0 2px rgba(37,99,235,.4),0 2px 6px rgba(0,0,0,.35);"></div>`,
+    box-shadow:0 0 0 2px rgba(199,154,46,.45),0 2px 6px rgba(0,0,0,.35);"></div>`,
   iconSize: [22, 22],
   iconAnchor: [11, 11],
 });

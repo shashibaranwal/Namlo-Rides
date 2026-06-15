@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+/* Brand palette: creamy white surfaces + wine red accents.
+   Defined as theme tokens so bg-/text-/border-/ring-{cream,wine}-* all work. */
+@theme {
+  --color-cream-50: #fdfaf5;
+  --color-cream-100: #faf3e8;
+  --color-cream-200: #f1e6d6;
+  --color-cream-300: #e7d8c2;
+
+  --color-wine-50: #fbf1f2;
+  --color-wine-100: #f5dde0;
+  --color-wine-200: #ebbac1;
+  --color-wine-300: #da8e99;
+  --color-wine-400: #c25f6e;
+  --color-wine-500: #a23b4b;
+  --color-wine-600: #7b2d3a;
+  --color-wine-700: #652530;
+  --color-wine-800: #521e27;
+  --color-wine-900: #431921;
+}
+
+body {
+  background-color: var(--color-cream-100);
+}

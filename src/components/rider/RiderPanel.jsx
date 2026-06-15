@@ -10,7 +10,7 @@ function PointRow({ active, color, label, value, onClick }) {
       type="button"
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border text-left transition ${
-        active ? "border-blue-500 ring-2 ring-blue-100 bg-blue-50/40" : "border-gray-200 hover:border-gray-300"
+        active ? "border-wine-500 ring-2 ring-wine-100 bg-wine-50/60" : "border-cream-200 hover:border-cream-300"
       }`}
     >
       <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: color }} />
@@ -88,7 +88,7 @@ export default function RiderPanel({ trip, hasTrip, draft, picking, setPicking, 
         <button
           type="button"
           onClick={onReset}
-          className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+          className="w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 text-white text-sm font-semibold transition"
         >
           Request another ride
         </button>
@@ -108,14 +108,14 @@ export default function RiderPanel({ trip, hasTrip, draft, picking, setPicking, 
       <div className="space-y-2">
         <PointRow
           active={picking === "pickup"}
-          color="#16a34a"
+          color="#15803d"
           label="Pickup"
           value={fmt(draft.pickup)}
           onClick={() => setPicking("pickup")}
         />
         <PointRow
           active={picking === "dropoff"}
-          color="#dc2626"
+          color="#b91c1c"
           label="Dropoff"
           value={fmt(draft.dropoff)}
           onClick={() => setPicking("dropoff")}
@@ -128,7 +128,7 @@ export default function RiderPanel({ trip, hasTrip, draft, picking, setPicking, 
         type="button"
         disabled={!ready}
         onClick={onRequest}
-        className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold transition"
+        className="w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold transition"
       >
         Request ride
       </button>

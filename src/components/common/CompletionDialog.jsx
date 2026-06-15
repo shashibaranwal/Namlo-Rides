@@ -21,7 +21,7 @@ export default function CompletionDialog({ fare, distanceKm, amountLabel, action
         <button
           type="button"
           onClick={onClose}
-          className="mt-6 w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+          className="mt-6 w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 text-white text-sm font-semibold transition"
         >
           {actionLabel}
         </button>

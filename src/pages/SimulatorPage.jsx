@@ -102,23 +102,25 @@ export default function SimulatorPage() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-cream-100">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shrink-0">
-        <div className="h-16 px-6 flex items-center justify-between">
+      <header className="bg-white border-b border-cream-200 shrink-0">
+        <div className="px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-sm">N</span>
-            <h1 className="text-base font-bold text-gray-900">Namlo Rides</h1>
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-wine-600 text-white font-bold text-sm">N</span>
+            <h1 className="text-base font-bold text-wine-900">Namlo Rides</h1>
           </div>
 
-          <RoleSwitcher role={role} onChange={setRole} />
+          <div className="order-last w-full flex justify-center sm:order-0 sm:w-auto">
+            <RoleSwitcher role={role} onChange={setRole} />
+          </div>
 
           <div className="flex items-center gap-4">
-            <Link to="/history" className="text-sm font-medium text-gray-600 hover:text-gray-900">History</Link>
+            <Link to="/history" className="text-sm font-medium text-wine-700 hover:text-wine-900">History</Link>
             <button
               type="button"
               onClick={logout}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              className="text-sm font-medium text-wine-700 hover:text-wine-900"
             >
               Sign out
             </button>
@@ -126,26 +128,26 @@ export default function SimulatorPage() {
         </div>
       </header>
 
-      {/* Body: map + panel */}
-      <div className="flex-1 flex min-h-0">
-        <div className="flex-1 relative min-h-0">
+      {/* Body: map + panel — stacked on mobile, side-by-side on md+ */}
+      <div className="flex-1 flex flex-col md:flex-row min-h-0">
+        <div className="relative h-[45vh] md:h-auto md:flex-1 min-h-0">
           <RideMap>
             {riderDrafting && <MapClickHandler onPick={handleMapPick} />}
             <PointMarker position={pickupPoint} icon={pickupIcon} />
             <PointMarker position={dropoffPoint} icon={dropoffIcon} />
             <RouteLine positions={tripRoute?.path} />
-            {approachRoute && <RouteLine positions={approachRoute.path} color="#9333ea" />}
+            {approachRoute && <RouteLine positions={approachRoute.path} color="#c25f6e" />}
             <DriverMarker position={driverPos} />
           </RideMap>
 
           {riderDrafting && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-1000 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-200 text-xs text-gray-600">
-              Click the map to set your <span className="font-semibold">{picking}</span>
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-1000 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-cream-200 text-xs text-gray-600">
+              Click the map to set your <span className="font-semibold text-wine-700">{picking}</span>
             </div>
           )}
         </div>
 
-        <aside className="w-96 shrink-0 bg-white border-l border-gray-200 p-6 overflow-y-auto">
+        <aside className="w-full md:w-96 flex-1 md:flex-none shrink-0 bg-white border-t md:border-t-0 md:border-l border-cream-200 p-5 sm:p-6 overflow-y-auto">
           {role === "rider" ? (
             <RiderPanel
               trip={trip}

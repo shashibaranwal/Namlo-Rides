@@ -42,24 +42,24 @@ export default function HistoryView() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-cream-100">
+      <header className="bg-white border-b border-cream-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-gray-500 hover:text-gray-900">← Back</Link>
-            <h1 className="text-lg font-bold text-gray-900">Ride History</h1>
+            <Link to="/" className="text-sm text-wine-700 hover:text-wine-900">← Back</Link>
+            <h1 className="text-lg font-bold text-wine-900">Ride History</h1>
           </div>
           <button
             type="button"
             onClick={refresh}
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="text-sm font-medium text-wine-700 hover:text-wine-900"
           >
             Refresh
           </button>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         {loading && <p className="text-sm text-gray-500">Loading history…</p>}
 
         {error && (
@@ -73,32 +73,32 @@ export default function HistoryView() {
         )}
 
         {!loading && !error && rows.length > 0 && (
-          <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl">
+          <div className="overflow-x-auto bg-white border border-cream-200 rounded-xl">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-xs text-gray-500 border-b border-gray-200">
+                <tr className="text-left text-xs text-gray-500 border-b border-cream-200">
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Rider</th>
                   <th className="px-4 py-3 font-medium">Driver</th>
-                  <th className="px-4 py-3 font-medium">Pickup</th>
-                  <th className="px-4 py-3 font-medium">Dropoff</th>
+                  <th className="px-4 py-3 font-medium hidden sm:table-cell">Pickup</th>
+                  <th className="px-4 py-3 font-medium hidden sm:table-cell">Dropoff</th>
                   <th className="px-4 py-3 font-medium">Fare</th>
-                  <th className="px-4 py-3 font-medium">Resolved</th>
+                  <th className="px-4 py-3 font-medium hidden md:table-cell">Resolved</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((r) => (
-                  <tr key={r.id ?? r.tripId} className="border-b border-gray-100 last:border-0">
+                  <tr key={r.id ?? r.tripId} className="border-b border-cream-100 last:border-0">
                     <td className="px-4 py-3"><StatusBadge status={r.status} /></td>
                     <td className="px-4 py-3 text-gray-900">{r.riderName ?? "—"}</td>
                     <td className="px-4 py-3 text-gray-900">{r.driverName ?? "—"}</td>
-                    <td className="px-4 py-3 text-gray-500">{fmtPoint(r.pickup)}</td>
-                    <td className="px-4 py-3 text-gray-500">{fmtPoint(r.dropoff)}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{fmtPoint(r.pickup)}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{fmtPoint(r.dropoff)}</td>
                     <td className="px-4 py-3 text-gray-900">
                       {r.fare != null ? `Rs ${r.fare}` : "—"}
                       {r.distanceKm != null && <span className="text-gray-400"> · {r.distanceKm.toFixed(1)} km</span>}
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{fmtTime(r.resolvedAt)}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden md:table-cell">{fmtTime(r.resolvedAt)}</td>
                   </tr>
                 ))}
               </tbody>

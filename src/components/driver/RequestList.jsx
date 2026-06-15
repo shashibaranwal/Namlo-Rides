@@ -27,7 +27,7 @@ export default function RequestList({ onAccept, onReject }) {
           <li key={r.id} className="rounded-lg border border-gray-200 p-3 space-y-2">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">{r.rider?.name ?? "Rider"}</p>
-              <span className="text-sm font-bold text-blue-700">{r.fare != null ? `Rs ${r.fare}` : "—"}</span>
+              <span className="text-sm font-bold text-wine-700">{r.fare != null ? `Rs ${r.fare}` : "—"}</span>
             </div>
             <div className="text-xs text-gray-500 space-y-0.5">
               <p>
@@ -42,7 +42,7 @@ export default function RequestList({ onAccept, onReject }) {
               <button
                 type="button"
                 onClick={() => onAccept(r)}
-                className="flex-1 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition"
+                className="flex-1 py-1.5 rounded-md bg-wine-600 hover:bg-wine-700 text-white text-xs font-semibold transition"
               >
                 Accept
               </button>

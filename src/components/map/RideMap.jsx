@@ -1,8 +1,20 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { KATHMANDU, DEFAULT_ZOOM } from "../../config/constants";
 
-// declare center/zoom OUTSIDE render so identity is stable
+// Keep Leaflet's canvas in sync when the layout reflows (breakpoint changes,
+// orientation flips) so tiles don't render half-grey on resize.
+function ResizeHandler() {
+  const map = useMap();
+  useEffect(() => {
+    const onResize = () => map.invalidateSize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [map]);
+  return null;
+}
+
 export default function RideMap({ children }) {
   return (
     <MapContainer
@@ -15,6 +27,7 @@ export default function RideMap({ children }) {
         attribution='&copy; OpenStreetMap contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <ResizeHandler />
       {children}
     </MapContainer>
   );

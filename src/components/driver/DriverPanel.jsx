@@ -67,28 +67,28 @@ export default function DriverPanel({ tripId, trip, onAccept, onReject, onBackTo
         <button
           type="button"
           onClick={() => startDriving(trip)}
-          className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+          className="w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 text-white text-sm font-semibold transition"
         >
           Start driving to pickup
         </button>
       )}
 
       {status === S.EN_ROUTE && (
-        <p className="text-sm text-indigo-600 bg-indigo-50 rounded-lg px-3 py-2.5">Driving to pickup…</p>
+        <p className="text-sm text-wine-700 bg-wine-50 rounded-lg px-3 py-2.5">Driving to pickup…</p>
       )}
 
       {status === S.ARRIVED && (
         <button
           type="button"
           onClick={() => startTrip(trip)}
-          className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+          className="w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 text-white text-sm font-semibold transition"
         >
           Start trip
         </button>
       )}
 
       {status === S.IN_PROGRESS && (
-        <p className="text-sm text-cyan-700 bg-cyan-50 rounded-lg px-3 py-2.5">Trip in progress — heading to dropoff…</p>
+        <p className="text-sm text-wine-700 bg-wine-50 rounded-lg px-3 py-2.5">Trip in progress — heading to dropoff…</p>
       )}
 
       {isTerminal && (
@@ -101,7 +101,7 @@ export default function DriverPanel({ tripId, trip, onAccept, onReject, onBackTo
           <button
             type="button"
             onClick={onBackToRequests}
-            className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition"
+            className="w-full py-2.5 rounded-lg bg-wine-600 hover:bg-wine-700 text-white text-sm font-semibold transition"
           >
             Back to requests
           </button>
