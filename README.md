@@ -1,5 +1,7 @@
 # Namlo Rides 🚕
 
+**🔗 Live demo: [namlorides.vercel.app](https://namlorides.vercel.app/)**
+
 A **web-only, real-time ride-sharing simulator** built with React. A single running instance lets an evaluator play **both sides** of a trip, Rider and Driver, in two browser windows side by side, with live position streaming, a real road-following route, fare calculation, and persistent ride history.
 
 The app deliberately uses **no custom backend**. State is distributed through a hybrid client architecture:
