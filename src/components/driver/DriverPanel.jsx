@@ -5,9 +5,8 @@ import { S, TERMINAL } from "../../state/rideMachine";
 import { startDriving, startTrip, cancelRide, arriveAtPickup, completeTrip } from "../../state/actions";
 import StatusBadge from "../common/StatusBadge";
 import FareCard from "../common/FareCard";
+import PlaceLabel from "../common/PlaceLabel";
 import RequestList from "./RequestList";
-
-const fmt = (p) => (p ? `${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}` : "—");
 
 export default function DriverPanel({ tripId, trip, onAccept, onReject, onBackToRequests }) {
   const status = trip?.status;
@@ -54,11 +53,11 @@ export default function DriverPanel({ tripId, trip, onAccept, onReject, onBackTo
         </div>
         <div className="flex justify-between">
           <dt className="text-gray-500">Pickup</dt>
-          <dd className="text-gray-900">{fmt(trip.rider?.pickup)}</dd>
+          <dd className="text-gray-900"><PlaceLabel point={trip.rider?.pickup} /></dd>
         </div>
         <div className="flex justify-between">
           <dt className="text-gray-500">Dropoff</dt>
-          <dd className="text-gray-900">{fmt(trip.rider?.dropoff)}</dd>
+          <dd className="text-gray-900"><PlaceLabel point={trip.rider?.dropoff} /></dd>
         </div>
       </dl>
 

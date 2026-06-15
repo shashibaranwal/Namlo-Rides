@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchRideHistory } from "../../services/historyAPI";
 import StatusBadge from "../common/StatusBadge";
+import PlaceLabel from "../common/PlaceLabel";
 
-const fmtPoint = (p) => (p ? `${p.lat.toFixed(3)}, ${p.lng.toFixed(3)}` : "—");
 const fmtTime = (ts) => (ts ? new Date(ts).toLocaleString() : "—");
 
 export default function HistoryView() {
@@ -92,8 +92,8 @@ export default function HistoryView() {
                     <td className="px-4 py-3"><StatusBadge status={r.status} /></td>
                     <td className="px-4 py-3 text-gray-900">{r.riderName ?? "—"}</td>
                     <td className="px-4 py-3 text-gray-900">{r.driverName ?? "—"}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{fmtPoint(r.pickup)}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{fmtPoint(r.dropoff)}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell"><PlaceLabel point={r.pickup} /></td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell"><PlaceLabel point={r.dropoff} /></td>
                     <td className="px-4 py-3 text-gray-900">
                       {r.fare != null ? `Rs ${r.fare}` : "—"}
                       {r.distanceKm != null && <span className="text-gray-400"> · {r.distanceKm.toFixed(1)} km</span>}

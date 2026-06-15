@@ -1,6 +1,5 @@
 import { useOpenRequests } from "../../hooks/useOpenRequests";
-
-const fmt = (p) => (p ? `${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}` : "—");
+import PlaceLabel from "../common/PlaceLabel";
 
 export default function RequestList({ onAccept, onReject }) {
   const requests = useOpenRequests();
@@ -31,10 +30,10 @@ export default function RequestList({ onAccept, onReject }) {
             </div>
             <div className="text-xs text-gray-500 space-y-0.5">
               <p>
-                <span className="text-green-600 font-medium">Pickup</span> {fmt(r.rider?.pickup)}
+                <span className="text-green-600 font-medium">Pickup</span> <PlaceLabel point={r.rider?.pickup} />
               </p>
               <p>
-                <span className="text-red-600 font-medium">Dropoff</span> {fmt(r.rider?.dropoff)}
+                <span className="text-red-600 font-medium">Dropoff</span> <PlaceLabel point={r.rider?.dropoff} />
               </p>
               {r.distanceKm != null && <p className="text-gray-400">{r.distanceKm.toFixed(2)} km</p>}
             </div>

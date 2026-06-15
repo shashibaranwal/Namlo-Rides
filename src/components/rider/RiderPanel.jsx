@@ -1,8 +1,7 @@
 import { S, TERMINAL } from "../../state/rideMachine";
 import StatusBadge from "../common/StatusBadge";
 import FareCard from "../common/FareCard";
-
-const fmt = (p) => (p ? `${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}` : "Click map to set");
+import PlaceLabel from "../common/PlaceLabel";
 
 function PointRow({ active, color, label, value, onClick }) {
   return (
@@ -41,11 +40,11 @@ export default function RiderPanel({ trip, hasTrip, draft, picking, setPicking, 
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between">
             <dt className="text-gray-500">Pickup</dt>
-            <dd className="text-gray-900">{fmt(trip.rider?.pickup)}</dd>
+            <dd className="text-gray-900"><PlaceLabel point={trip.rider?.pickup} /></dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-gray-500">Dropoff</dt>
-            <dd className="text-gray-900">{fmt(trip.rider?.dropoff)}</dd>
+            <dd className="text-gray-900"><PlaceLabel point={trip.rider?.dropoff} /></dd>
           </div>
           {trip.driver?.name && (
             <div className="flex justify-between">
@@ -110,14 +109,14 @@ export default function RiderPanel({ trip, hasTrip, draft, picking, setPicking, 
           active={picking === "pickup"}
           color="#15803d"
           label="Pickup"
-          value={fmt(draft.pickup)}
+          value={<PlaceLabel point={draft.pickup} empty="Click map to set" />}
           onClick={() => setPicking("pickup")}
         />
         <PointRow
           active={picking === "dropoff"}
           color="#b91c1c"
           label="Dropoff"
-          value={fmt(draft.dropoff)}
+          value={<PlaceLabel point={draft.dropoff} empty="Click map to set" />}
           onClick={() => setPicking("dropoff")}
         />
       </div>
