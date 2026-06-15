@@ -34,3 +34,7 @@ export function subscribeOpenRequests(cb) {
 export function guardDisconnect(id) {
   return onDisconnect(tripRef(id)).update({ status: "CANCELLED", droppedAt: Date.now() });
 }
+
+export function cancelDisconnectGuard(id) {
+  return onDisconnect(tripRef(id)).cancel();
+}
