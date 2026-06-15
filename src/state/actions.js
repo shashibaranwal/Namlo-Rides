@@ -25,8 +25,8 @@ export function guardedTransition(trip, status, patch = {}) {
 }
 
 // --- Rider actions ---------------------------------------------------------
-export function requestRide(rider) {
-  return createTrip({ status: S.REQUESTING, rider, createdAt: Date.now() });
+export function requestRide({ rider, fare = null, distanceKm = null }) {
+  return createTrip({ status: S.REQUESTING, rider, fare, distanceKm, createdAt: Date.now() });
 }
 
 export const cancelRide = (trip) => guardedTransition(trip, S.CANCELLED);

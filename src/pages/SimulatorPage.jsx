@@ -2,7 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useRide } from "../state/useRide";
+import { useRoute } from "../hooks/useRoute";
 import { requestRide, cancelRide, acceptRide, rejectRide } from "../state/actions";
+import { S } from "../state/rideMachine";
+import { FARE_PER_KM } from "../config/constants";
 import RoleSwitcher from "../components/common/RoleSwitcher";
 import RideMap from "../components/map/RideMap";
 import MapClickHandler from "../components/map/MapClickHandler";
@@ -12,6 +15,9 @@ import DriverMarker from "../components/map/DriverMarker";
 import { pickupIcon, dropoffIcon } from "../components/map/markers";
 import RiderPanel from "../components/rider/RiderPanel";
 import DriverPanel from "../components/driver/DriverPanel";
+import CompletionDialog from "../components/common/CompletionDialog";
+
+const fareFor = (km) => (km != null ? Math.round(km * FARE_PER_KM) : null);
 
 export default function SimulatorPage() {
   const { logout } = useAuth();
@@ -38,8 +44,29 @@ export default function SimulatorPage() {
 
   const activeTripId = role === "rider" ? riderTripId : driverTripId;
   const [trip] = useRide(activeTripId);
+  const status = trip?.status;
 
   const riderDrafting = role === "rider" && !riderTripId;
+
+  // Points shown on the shared map: from the live trip, or the rider's draft.
+  const pickupPoint = trip?.rider?.pickup ?? (riderDrafting ? draftPickup : null);
+  const dropoffPoint = trip?.rider?.dropoff ?? (riderDrafting ? draftDropoff : null);
+  const driverPos = trip?.driverLocation ?? null;
+
+  // Road geometry: the trip route (pickup→dropoff) always, plus the driver's
+  // approach leg (start→pickup) while heading to pickup.
+  const tripRoute = useRoute(pickupPoint, dropoffPoint);
+  const showApproach = status === S.ACCEPTED || status === S.EN_ROUTE;
+  const approachRoute = useRoute(
+    showApproach ? trip?.driver?.startLocation : null,
+    showApproach ? pickupPoint : null
+  );
+
+  // Fare: prefer the value frozen onto the trip at request time; otherwise the
+  // live estimate from the freshly-drawn draft route.
+  const estDistanceKm = tripRoute?.distanceKm ?? null;
+  const displayDistanceKm = trip?.distanceKm ?? estDistanceKm;
+  const displayFare = trip?.fare ?? fareFor(estDistanceKm);
 
   const handleMapPick = useCallback(
     (latlng) => {
@@ -55,8 +82,13 @@ export default function SimulatorPage() {
 
   const handleRequest = useCallback(() => {
     if (!draftPickup || !draftDropoff) return;
-    requestRide({ name: "Rider", pickup: draftPickup, dropoff: draftDropoff }).then(setRiderTripId);
-  }, [draftPickup, draftDropoff]);
+    const km = tripRoute?.distanceKm ?? null;
+    requestRide({
+      rider: { name: "Rider", pickup: draftPickup, dropoff: draftDropoff },
+      distanceKm: km,
+      fare: fareFor(km),
+    }).then(setRiderTripId);
+  }, [draftPickup, draftDropoff, tripRoute]);
 
   const handleResetRider = useCallback(() => {
     setRiderTripId(null);
@@ -68,11 +100,6 @@ export default function SimulatorPage() {
   const handleAccept = useCallback((r) => {
     acceptRide(r, "Driver").then((ok) => ok && setDriverTripId(r.id));
   }, []);
-
-  // Points shown on the shared map: from the live trip, or the rider's draft.
-  const pickupPoint = trip?.rider?.pickup ?? (riderDrafting ? draftPickup : null);
-  const dropoffPoint = trip?.rider?.dropoff ?? (riderDrafting ? draftDropoff : null);
-  const driverPos = trip?.driverLocation ?? null;
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -106,7 +133,8 @@ export default function SimulatorPage() {
             {riderDrafting && <MapClickHandler onPick={handleMapPick} />}
             <PointMarker position={pickupPoint} icon={pickupIcon} />
             <PointMarker position={dropoffPoint} icon={dropoffIcon} />
-            <RouteLine from={pickupPoint} to={dropoffPoint} />
+            <RouteLine positions={tripRoute?.path} />
+            {approachRoute && <RouteLine positions={approachRoute.path} color="#9333ea" />}
             <DriverMarker position={driverPos} />
           </RideMap>
 
@@ -128,6 +156,8 @@ export default function SimulatorPage() {
               onRequest={handleRequest}
               onCancel={() => cancelRide(trip)}
               onReset={handleResetRider}
+              distanceKm={displayDistanceKm}
+              fare={displayFare}
             />
           ) : (
             <DriverPanel
@@ -140,6 +170,16 @@ export default function SimulatorPage() {
           )}
         </aside>
       </div>
+
+      {status === S.COMPLETED && (
+        <CompletionDialog
+          fare={displayFare}
+          distanceKm={displayDistanceKm}
+          amountLabel={role === "rider" ? "Total paid" : "Total received"}
+          actionLabel={role === "rider" ? "Request another ride" : "Back to requests"}
+          onClose={role === "rider" ? handleResetRider : () => setDriverTripId(null)}
+        />
+      )}
     </div>
   );
 }
